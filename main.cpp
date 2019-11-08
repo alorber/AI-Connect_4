@@ -35,7 +35,7 @@ void initUserBoard(){
     
     int i = 0, j = 0;
     while(fin >> square){
-        currentBoard[j][i] == square;
+        currentBoard[j][i] = square;
         
         i++;
         if(i == 7){
@@ -50,7 +50,7 @@ void initUserBoard(){
 }
 
 void printBoard(){
-    cout << " |-1-|-2-|-3-|-4-|-5-|-6-|-7-|\n\n";
+    cout << "\n |-1-|-2-|-3-|-4-|-5-|-6-|-7-|\n\n";
     for(int i = 0, j= 0; j < 6; i++){
         cout << " | " << currentBoard[j][i];
         
@@ -62,6 +62,7 @@ void printBoard(){
     }
 }
 
+// Gets starting player
 bool player1Starts(bool userPlaying){
     string resp;
     if(userPlaying){
@@ -82,6 +83,95 @@ bool player1Starts(bool userPlaying){
     }
 }
 
+// Checks if game ends
+// Returns player number if a player has won, 0 if game is not over, & 3 if all spots are filled and tie.
+int gameOver(int board[6][7] = currentBoard){
+    bool tie = true;
+    for(int i = 0, j = 0; j < 6; i++){
+        int piece = board[j][i];
+        if(piece == 0){
+            tie = false;
+        } else {
+            // Check left side
+            if(i > 2){
+                if(board[j][i-1] == piece && board[j][i-2] == piece && board[j][i-3] == piece){
+                    return piece;
+                }
+                
+                // check top & bottom left diagonal
+                if(j > 2){
+                    if(board[j-1][i-1] == piece && board[j-2][i-2] == piece && board[j-3][i-3] == piece){
+                        return piece;
+                    }
+                } else if (j < 3){
+                    if(board[j+1][i-1] == piece && board[j+2][i-2] == piece && board[j+3][i-3] == piece){
+                        return piece;
+                    }
+                }
+            }
+            // Check right side
+            if(i < 4){
+                if(board[j][i+1] == piece && board[j][i+2] == piece && board[j][i+3] == piece){
+                    return piece;
+                }
+                
+                // Check top & bottom right diagonal
+                if(j > 2){
+                    if(board[j-1][i+1] == piece && board[j-2][i+2] == piece && board[j-3][i+3] == piece){
+                        return piece;
+                    }
+                } else if (j < 3){
+                    if(board[j+1][i+1] == piece && board[j+2][i+2] == piece && board[j+3][i+3] == piece){
+                        return piece;
+                    }
+                }
+            }
+            // Check top
+            if(j > 2){
+                if(board[j-1][i] == piece && board[j-2][i] == piece && board[j-3][i] == piece){
+                    return piece;
+                }
+            }
+            // Check bottom
+            if(j < 3){
+                if(board[j+1][i] == piece && board[j+2][i] == piece && board[j+3][i] == piece){
+                    return piece;
+                }
+            }
+        }
+        
+        if(i == 7){
+            i = -1;
+            j++;
+        }
+    }
+    if(tie){
+        return 3;
+    } else {
+        return 0;
+    }
+}
+
+// Implements game move
+void implementMove(){
+    
+}
+
+void playAIvsAI(int startingPlayer, int seconds){
+    
+}
+
+// Gets user's move choice
+int getMove(){
+    int moveNum;
+    cout << "Which column would you like to place your piece in?\n";
+    cin >> moveNum;
+    while(moveNum < 1 || moveNum > 7 || currentBoard[0][moveNum-1] != 0){
+        cout << "The move you entered is invalid.\nWhich column would you like to place your piece in?\n";
+        cin >> moveNum;
+    }
+    return moveNum;
+}
 void playGame(){
     
     // User decides game board
@@ -125,7 +215,26 @@ void playGame(){
     }
     cout << "The starting player is player " << startingPlayer << ".\n\n";
     
+    printBoard();
+    // Checks if the board can be played
+    if(gameOver() > 0){
+        cout << "You have loaded a completed game.\n";
+        return;
+    }
     
+    // Differs here if AI vs AI
+    if(AIvsAI){
+        playAIvsAI(startingPlayer, input);
+        return;
+    }
+    
+    
+    if(startingPlayer == 1){
+        
+    }
+    while(true){
+        
+    }
     
 }
 
