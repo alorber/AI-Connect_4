@@ -8,12 +8,44 @@
 
 #include <iostream>
 #include <math.h>
+#include <fstream>
 
 using namespace std;
 
 int currentBoard[6][7] = {0};
 
+// Loads user-set board
 void initUserBoard(){
+    // Reads in file with game board. See board key above.
+    string file;
+    cout << "Please enter the name of your board file.\nEach space should be either:\n  0 - empty space\n";
+    cout << "  1 - player 1 piece\n  2 - player 2 piece\n";
+    cin >> file;
+    ifstream fin;
+    fin.open(file);
+    
+    // Checks for incorrect input
+    while(!fin.is_open()){
+        cout << "The file you entered cannot be opened.\nPlease enter a new file.\n";
+        cin >> file;
+        fin.open(file);
+    }
+    
+    int square;
+    
+    int i = 0, j = 0;
+    while(fin >> square){
+        currentBoard[j][i] == square;
+        
+        i++;
+        if(i == 7){
+            i = 0;
+            j++;
+        }
+        if(j == 6){
+            break;
+        }
+    }
     
 }
 
