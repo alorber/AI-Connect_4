@@ -154,16 +154,25 @@ int gameOver(int board[6][7] = currentBoard){
 }
 
 // Checks for game over and prints dialogue
-bool checkEndGame(){
+bool checkEndGame(bool userPlaying = true){
     int winningPlayer = gameOver();
     if(winningPlayer == 0){
         return false;
     } else if(winningPlayer == 3){
         cout << "The game is a tie.\n";
     } else if(winningPlayer == 1){
-        cout << "Congrats! You win!\n";
+        if(userPlaying){
+            cout << "Congrats! You win!\n";
+        } else {
+            cout << "Player 1 wins.\n";
+        }
+        
     } else{
-        cout << "The AI has won.\n";
+        if(userPlaying){
+            cout << "The AI has won.\n";
+        } else {
+            cout << "Player 2 wins.\n";
+        }
     }
     return true;
 }
@@ -211,6 +220,12 @@ void copyBoard(int from[6][7], int to[6][7]){
 // Heuristic function
 int evalFunc(int board[6][7]){
     int val = 0;
+    
+    if(gameOver(board) == 2){
+        val += 500;
+    } else if(gameOver(board) == 1){
+        val -= 500;
+    }
     
     // Random number added to make it randomly choose between multiple "equal" moves
     val += rand() % 10;
@@ -327,7 +342,29 @@ int iterativeDeepening(int seconds, bool player2 = true){
 }
 
 void playAIvsAI(int startingPlayer, int seconds){
-    
+    if(startingPlayer == 1){
+        cout << "Player 1 is thinking...\n";
+        implementMove(iterativeDeepening(seconds) , 1);
+        printBoard();
+    }
+    while(true){
+        // Player 2 turn
+        if(checkEndGame(false)){
+            return;
+        };
+        cout << "Player 2 is thinking...\n";
+        implementMove(iterativeDeepening(seconds) , 2);
+        printBoard();
+        
+        
+        // Player 1 turn
+        if(checkEndGame(false)){
+            return;
+        };
+        cout << "Player 1 is thinking...\n";
+        implementMove(iterativeDeepening(seconds) , 1);
+        printBoard();
+    }
 }
 
 // Gets user's move choice
@@ -425,6 +462,7 @@ void playGame(){
 }
 
 int main(int argc, const char * argv[]) {
+    srand(time(nullptr));
     playGame();
     return 0;
 }
