@@ -51,9 +51,20 @@ void initUserBoard(){
 }
 
 void printBoard(){
+    cout << " \nKEY:\n  P1: " << "\033[1;31m" << "\u25EF" << "\033[0m\n";
+    cout << "  P2: " << "\033[1;34m" << "\u25EF" << "\033[0m\n";
+    
     cout << "\n |-1-|-2-|-3-|-4-|-5-|-6-|-7-|\n\n";
+    cout << " |---|---|---|---|---|---|---|\n";
     for(int i = 0, j= 0; j < 6; i++){
-        cout << " | " << currentBoard[j][i];
+        cout << " | ";
+        if(currentBoard[j][i] == 1){ // Player 1 = red circle
+            cout << "\033[1;31m" << "\u25EF" << "\033[0m";
+        } else if(currentBoard[j][i] == 2){ // Player 2 = blue circle
+            cout << "\033[1;34m" << "\u25EF" << "\033[0m";
+        } else {
+            cout << " ";
+        }
         
         if(i == 6){
             cout << " |\n |---|---|---|---|---|---|---|\n";
@@ -141,7 +152,7 @@ int gameOver(int board[6][7] = currentBoard){
             }
         }
         
-        if(i == 7){
+        if(i == 6){
             i = -1;
             j++;
         }
