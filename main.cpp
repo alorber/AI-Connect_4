@@ -153,8 +153,16 @@ int gameOver(int board[6][7] = currentBoard){
 }
 
 // Implements game move
-void implementMove(){
-    
+void implementMove(int moveNum, int piece, int board[6][7] = currentBoard){
+    moveNum--;
+    for(int i = 1; i < 7; i++){
+        if(board[i][moveNum] != 0){
+            board[i-1][moveNum] = piece;
+            break;
+        } else if(i == 6){
+            board[i][moveNum] = piece;
+        }
+    }
 }
 
 void playAIvsAI(int startingPlayer, int seconds){
@@ -163,15 +171,18 @@ void playAIvsAI(int startingPlayer, int seconds){
 
 // Gets user's move choice
 int getMove(){
-    int moveNum;
+    double moveNum;
     cout << "Which column would you like to place your piece in?\n";
     cin >> moveNum;
-    while(moveNum < 1 || moveNum > 7 || currentBoard[0][moveNum-1] != 0){
+    moveNum = round(moveNum);
+    while(moveNum < 1 || moveNum > 7 || currentBoard[0][int(moveNum)-1] != 0){
         cout << "The move you entered is invalid.\nWhich column would you like to place your piece in?\n";
         cin >> moveNum;
+        moveNum = round(moveNum);
     }
     return moveNum;
 }
+
 void playGame(){
     
     // User decides game board
