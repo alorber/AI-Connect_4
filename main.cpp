@@ -355,7 +355,7 @@ int iterativeDeepening(int seconds, bool player2 = true){
 void playAIvsAI(int startingPlayer, int seconds){
     if(startingPlayer == 1){
         cout << "Player 1 is thinking...\n";
-        implementMove(iterativeDeepening(seconds) , 1);
+        implementMove(iterativeDeepening(seconds, false) , 1);
         printBoard();
     }
     while(true){
@@ -373,7 +373,7 @@ void playAIvsAI(int startingPlayer, int seconds){
             return;
         };
         cout << "Player 1 is thinking...\n";
-        implementMove(iterativeDeepening(seconds) , 1);
+        implementMove(iterativeDeepening(seconds, false) , 1);
         printBoard();
     }
 }
