@@ -152,6 +152,20 @@ int gameOver(int board[6][7] = currentBoard){
     }
 }
 
+bool checkEndGame(){
+    int winningPlayer = gameOver();
+    if(winningPlayer == 0){
+        return false;
+    } else if(winningPlayer == 3){
+        cout << "The game is a tie.\n";
+    } else if(winningPlayer == 1){
+        cout << "Congrats! You win!\n";
+    } else{
+        cout << "The AI has won.\n";
+    }
+    return true;
+}
+
 // Implements game move
 void implementMove(int moveNum, int piece, int board[6][7] = currentBoard){
     moveNum--;
@@ -170,7 +184,7 @@ void playAIvsAI(int startingPlayer, int seconds){
 }
 
 // Gets user's move choice
-int getMove(){
+int getMoveChoice(){
     double moveNum;
     cout << "Which column would you like to place your piece in?\n";
     cin >> moveNum;
@@ -224,7 +238,7 @@ void playGame(){
     } else {
         startingPlayer = 2;
     }
-    cout << "The starting player is player " << startingPlayer << ".\n\n";
+    cout << "\nThe starting player is player " << startingPlayer << ".\n\n";
     
     printBoard();
     // Checks if the board can be played
@@ -241,10 +255,23 @@ void playGame(){
     
     
     if(startingPlayer == 1){
-        
+        implementMove(getMoveChoice(), 1);
     }
     while(true){
+        // Player 2 turn
+        if(checkEndGame()){
+            return;
+        };
+        cout << "I am thinking...\n";
+        // implementMove( ______ , 2);
+        printBoard();
         
+        // Player 1 turn
+        if(checkEndGame()){
+            return;
+        };
+        implementMove(getMoveChoice(), 1);
+        printBoard();
     }
     
 }
